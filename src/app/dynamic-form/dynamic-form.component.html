@@ -1,0 +1,13 @@
+<h2>Dynamic Form</h2>
+
+<label for="client" class="label">Clint Id</label>
+<form [formGroup]="clients" (ngSubmit)="createClient()">
+    <div formArrayName="clientsDetail">
+        <div *ngFor="let cl of ClientDetail; let i=index"  class="clientid">
+            <input type="text" id="client" class="form-control p-2 m-2 w-50" [formControlName]="i"/>
+            <button class="btn btn-primary pl-5 pr-5 m-2" (click)="removeClient(i)">Remove</button>
+        </div>
+    </div>
+    <button class="btn btn-primary pl-5 pr-5 m-2" (click)="addClient()">Add</button>
+    <button type="submit" class="btn btn-primary pl-5 pr-5 m-2">Submit</button>
+</form>
