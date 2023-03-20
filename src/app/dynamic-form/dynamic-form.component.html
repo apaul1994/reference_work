@@ -5,9 +5,10 @@
     <div formArrayName="clientsDetail">
         <div *ngFor="let cl of ClientDetail; let i=index"  class="clientid">
             <input type="text" id="client" class="form-control p-2 m-2 w-50" [formControlName]="i"/>
+            <span class="text-danger" *ngIf="i==this.errorPlace">*duplicate data</span>
             <button class="btn btn-primary pl-5 pr-5 m-2" (click)="removeClient(i)">Remove</button>
         </div>
     </div>
-    <button class="btn btn-primary pl-5 pr-5 m-2" (click)="addClient()">Add</button>
-    <button type="submit" class="btn btn-primary pl-5 pr-5 m-2">Submit</button>
+    <button class="btn btn-primary pl-5 pr-5 m-2" (click)="addClient()" [disabled]="checkValidity()">Add</button>
+    <button type="submit" class="btn btn-primary pl-5 pr-5 m-2" [disabled]="this.clients.invalid">Submit</button>
 </form>

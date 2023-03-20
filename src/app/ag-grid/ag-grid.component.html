@@ -1,0 +1,22 @@
+<!-- <ag-grid-angular 
+	style="width: 500px; height: 500px;" 
+	class="ag-theme-alpine"
+	[rowData]="rowData" 
+	[columnDefs]="columnDefs">
+</ag-grid-angular> -->
+<!-- <ag-grid-angular 
+	style="width: 500px; height: 500px;" 
+	class="ag-theme-alpine"
+	[rowData]="postData" 
+	[columnDefs]="columnDef1">
+</ag-grid-angular> -->
+<ag-grid-angular 
+	style="width: 500px; height: 500px;" 
+	class="ag-theme-alpine"
+	[rowData]="postData" 
+	[columnDefs]="columnDef2"
+	[infiniteInitialRowCount]=200
+	[maxBlocksInCache]=100>
+	(gridReady)="onGridReady($event)"
+</ag-grid-angular>
+

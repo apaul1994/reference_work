@@ -10,6 +10,7 @@ export class DynamicFormComponent implements OnInit{
 
   clients!:FormGroup;
   checkDuplicate=false;
+  errorPlace = -1;
   constructor(private fb:FormBuilder){}
 
 
@@ -35,7 +36,7 @@ export class DynamicFormComponent implements OnInit{
     let index = this.ClientDetail.length;
     let newClientAdd = new FormControl(null);
     (<FormArray>this.clients.controls['clientsDetail']).push(newClientAdd)
-    this.ClientDetail[index].addValidators([this.checkDuplicateClient(index)]);
+    // this.ClientDetail[index].addValidators([this.checkDuplicateClient(index)]);
   }
 
   removeClient(i:number){
@@ -44,23 +45,31 @@ export class DynamicFormComponent implements OnInit{
 
   createClient(){
     console.log(this.ClientDetail[0].value)
-    // this.checkDuplicates();
-    console.log('form submitted');
-    console.log("Check Form status", this.clients.invalid);
   }
 
-  checkDuplicateClient(index:number):any{
-    return((control:FormControl)=>{
-      const formArray = control.parent? control.parent as FormArray: null;
-      if(formArray && formArray.controls.length>1){
-        for (let i = 0; i < formArray.controls.length-1; i++) {
-          if ((formArray.at(i) as FormControl).value == control.value)
-            return { errorRepeat: true };
+
+  checkValidity():any{
+    this.errorPlace=-1;
+    if(this.ClientDetail.length>1){
+      let validity = false;
+      for(let i=this.ClientDetail.length-1;i>=0;i--){
+        if(this.ClientDetail[i].value == null || this.ClientDetail[i].value == ''){
+          return true;
         }
-        return null;
+        for(let j=i-1;j>=0;j--){
+          if(this.ClientDetail[i].value==this.ClientDetail[j].value){
+            this.errorPlace = i;
+            return true
+          }
         }
-      return null;
       }
-      )
+      return validity;
+    }
+    else if(this.ClientDetail.length == 1){
+      if(this.ClientDetail[0].value == null){
+        return true;
+      }
+    }
+    else return false
   }
 }
