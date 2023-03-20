@@ -1,3 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ag-grid-community/styles//ag-grid.css";
 @import "~ag-grid-community/styles//ag-theme-alpine.css";
+
+.ag-header-cell-text {
+    color: red!important;
+    font-style: italic!important;
+    text-align: center!important;
+   }
+.ag-cell-wrapper{
+    margin: auto!important;
+    text-align: center!important;
+}
+.ag-cell-label-container{
+    margin: auto!important;
+    display: flex!important;
+}
+
+.ag-cell-value, .ag-group-value {
+    font-style: italic!important;
+    padding-left: 2px!important;
+    padding-right: 2px!important;
+}
+
+.ag-header-cell, .ag-header-group-cell {
+    text-align: center!important;
+}
+
+.ag-header-group-cell-label, .ag-header-cell-label {
+    display: inline!important;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+.ag-header-group-cell-label, .ag-header-cell-label {
+    display: inline!important;
+    align-self: auto!important;
+}

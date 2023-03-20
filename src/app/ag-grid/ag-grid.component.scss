@@ -1,0 +1,31 @@
+.outer-div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button-bar {
+    margin-bottom: 1rem;
+  }
+  
+  .grid-wrapper {
+    flex: 1 1 auto;
+  }
+
+  .agContainer{
+    // display:flex;
+    height:100vh; 
+    flex-direction:column; 
+    // position:absolute;
+    display: block;
+    // width: 50%;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    background-color: transparent;
+  }
+
+  .ag-header-cell-label {
+    justify-content: center;
+ }
+
