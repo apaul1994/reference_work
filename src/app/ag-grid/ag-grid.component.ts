@@ -1,5 +1,7 @@
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
-import { IGetRowsParams } from 'ag-grid-community';
+import { AfterViewChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AgGridAngular } from 'ag-grid-angular';
+import { IGetRowsParams,ColDef,ICellRendererParams } from 'ag-grid-community';
 import { filter, of } from 'rxjs';
 import { CommonService } from '../Services/common.service';
 
@@ -8,91 +10,81 @@ import { CommonService } from '../Services/common.service';
   templateUrl: './ag-grid.component.html',
   styleUrls: ['./ag-grid.component.scss']
 })
-export class AgGridComponent{
-  public columnDefs: any[];
+export class AgGridComponent implements OnInit{
+  @ViewChild('tableGrid') grid!: AgGridAngular;
+  // public columnDefs!: ColDef[];
   public rowData!: any[];
-  public gridOptions: any;
-  public info!: string;
-  private totalRows = 100;
-  private dataLatencyInMilliSeconds = 2000;
-  public rowHeight = 30;
+  public gridOptions:any;
+  private gridApi:any;
   public rows:any;
-
-  constructor(public service:CommonService) {
-    const checkBoxColumDefn = {
-      headerName: 'Select',
-      field: '',
-      flex: 0.1,
-      filter: false,
-      checkboxSelection: true,
-      suppressSizeToFit: true,
-      cellStyle: (params:any) => {
-        if (params.data?.qtyAlloc > 0) {
-          params.node.selected = true;
-          params.node.selectable = true;
-          return { 'pointer-events': 'none', opacity: '0.7', padding: '' };
-        } else {
-          params.node.selectable = true;
-          return { padding: '' };
-        }
-      },
-    };
-    const col4 = { headerName: 'id ', field: 'id' };
-    const col5 = { headerName: 'userId', field: 'userId' };
-    const col6 = { headerName: 'title', field: 'title' };
-
-    this.columnDefs = [checkBoxColumDefn, col4, col5, col6];
-
+  public lastRow:any=20;
+  public dataload:number=20;
+  public showEditForm=false;
+  public editIds:any;
+  public editTermilal!:FormGroup;
+  public rowSelection: 'single' | 'multiple' = 'multiple';
+  constructor(public service:CommonService, public fb:FormBuilder) {
+  }
+  ngOnInit(): void {
     this.gridOptions = {
-      enableCellTextSelection: true,
-      suppressMovableColumns: true,
-      suppressLoadingOverlay: false,
-      stopEditingWhenCellsLoseFocus: true,
-      suppressDragLeaveHidesColumns: false,
-      suppressHorizontalScroll: false,
-      singleClickEdit: true,
-      suppressRowClickSelection: true,
-      rowSelection: 'multiple',
       cacheBlockSize: 20,
-      maxBlocksInCache: Infinity,
-      rowModelType: 'infinite',
+      maxBlocksInCache: 20,
+      // rowModelType: 'serverSide',
     };
   }
+  public columnDefs: ColDef[]= [
+      {
+        field: 'id',
+        flex: 0.1,
+        checkboxSelection: true,
+        headerCheckboxSelection:true,
+      },
+      { headerName: 'USER-ID', field: 'userId'},
+      { headerName: 'TITLE', field: 'title', width:800 }
+    ];
+    
+  
 
 
-  private getRowData(startRow: number, endRow: number) {
-    this.totalRows = this.rows.length
-    console.log(this.rows.slice(startRow,endRow))
-    return of(this.rows.slice(startRow,endRow));
-  }
+  // private getRowData(startRow: number, endRow: number) {
+  //   // this.totalRows = this.rows.length
+  //   console.log(this.rows.slice(startRow,endRow))
+  //   return of(this.rows.slice(startRow,endRow));
+  // }
 
   onGridReady(params: any) {
+    this.gridApi = params.api;
+    console.log(this.gridApi.rowRenderer);
+    console.log(this.gridApi);
     this.service.getDummyPost().subscribe((data)=>{
       this.rows=data;
+      this.rowData=this.rows
       params.api.setDomLayout('normal');
-      params.api.setDatasource(this.getDataSource());
     })
   }
 
-  private getDataSource() {
-    const dataSource = {
-      getRows: (params: IGetRowsParams) => {
-        this.info =
-          'Getting datasource rows, start: ' +
-          params.startRow +
-          ', end: ' +
-          params.endRow;
-        if (this.totalRows >= params.endRow) {
-          setTimeout(() => {
-            this.getRowData(params.startRow, params.endRow).subscribe(
-              (data:any) => {
-                params.successCallback(data, this.totalRows);
-              }
-            );
-          }, this.dataLatencyInMilliSeconds);
-        }
-      },
-    };
-    return { ...dataSource };
+  editBulk(){
+    let payload = {
+      "id":null,
+      "changeData":{
+        "userId":this.editTermilal.controls["userId"].value,
+        "title":this.editTermilal.controls["title"].value
+      }
+    }
+     payload["id"] = this.editIds;
+    console.log(payload)
+    this.editIds = null;
+
+  }
+
+  generateFormForEdit(){
+    this.showEditForm=true;
+    this.editIds = this.gridApi.getSelectedRows().map((data:any)=>{
+      return data['id']
+    })
+    this.editTermilal = this.fb.group({
+      'userId':['',[Validators.required]],
+      'title':['', [Validators.required]]
+    })
   }
 }

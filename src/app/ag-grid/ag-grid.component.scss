@@ -21,7 +21,7 @@
     // width: 50%;
     justify-content: center;
     text-align: center;
-    margin: auto;
+    // margin: auto;
     background-color: transparent;
   }
 
@@ -29,3 +29,9 @@
     justify-content: center;
  }
 
+ .editForm{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

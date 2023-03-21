@@ -1,13 +1,43 @@
 <div class="agContainer">
-  <p>{{ info }}</p>
+			  <ag-grid-angular
+				style="width: 100%; height: 50%; margin:auto;"
+				class="ag-theme-alpine"
+				[gridOptions]="gridOptions"
+				[columnDefs]="columnDefs"
+				[rowData]="this.rowData"
+				[rowSelection]="rowSelection"
+				(gridReady)="onGridReady($event)"
+				*ngIf="!showEditForm" #tableGrid  ></ag-grid-angular>
+		  <div class="container m-3" *ngIf="!showEditForm">
+			  <div class="row">
+				  <div class="col"></div>
+				  <div class="col"></div>
+				  <div class="col"><button class="btn btn-primary" (click)="generateFormForEdit()">Edit</button></div>
+				  <div class="col"></div>
+				  <div class="col"></div>
+			  </div>
+		  </div>
 
-  <ag-grid-angular
-    style="width: 100%; height: 50%"
-    class="ag-theme-alpine"
-    [gridOptions]="gridOptions"
-    [columnDefs]="columnDefs"
-    [rowHeight]="rowHeight"
-    (gridReady)="onGridReady($event)"
-    #grid
-  ></ag-grid-angular>
+	<div class="editForm" *ngIf="showEditForm">
+		<form [formGroup]="editTermilal" (ngSubmit)="editBulk()">
+			<div class="row m-3">
+				<label for="userId">User Id</label>
+				<input type="text" id="userId" formControlName="userId">
+			</div>
+			<div class="row m-3">
+				<label for="title">Title</label>
+				<input type="text" id="title" formControlName="title">
+			</div>
+			<div class="row" style="text-align: center;">
+				<div class="col">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div> 
+				<div class="col">
+					<button type="button" class="btn btn-primary" (click)="this.showEditForm = false">Cancel</button>
+				</div> 
+			</div>
+
+		</form>
+	</div>
 </div>
+
