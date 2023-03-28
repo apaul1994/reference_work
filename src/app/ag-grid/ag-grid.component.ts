@@ -35,7 +35,7 @@ export class AgGridComponent implements OnInit{
   public columnDefs: ColDef[]= [
       {
         field: 'id',
-        flex: 0.1,
+        // flex: 0.1,
         checkboxSelection: true,
         headerCheckboxSelection:true,
       },
@@ -54,6 +54,7 @@ export class AgGridComponent implements OnInit{
 
   onGridReady(params: any) {
     this.gridApi = params.api;
+    console.log(params)
     console.log(this.gridApi.rowRenderer);
     console.log(this.gridApi);
     this.service.getDummyPost().subscribe((data)=>{

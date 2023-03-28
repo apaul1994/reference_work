@@ -11,13 +11,17 @@ import { AgGridModule } from 'ag-grid-angular';
 import { CommonService } from './Services/common.service';
 import { HttpClientModule } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { AdaCompComponent } from './ada-comp/ada-comp.component';
+import { ConvertToCsvComponent } from './convert-to-csv/convert-to-csv.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GraphComponent,
     DynamicFormComponent,
-    AgGridComponent
+    AgGridComponent,
+    AdaCompComponent,
+    ConvertToCsvComponent
   ],
   imports: [
     BrowserModule,

@@ -17,4 +17,8 @@ export class CommonService {
     // return this.http.get<UsedObject[]>('https://www.ag-grid.com/example-assets/olympic-winners.json');
     return this.http.get('https://jsonplaceholder.typicode.com/posts');
   }
+
+  getTextForCsv(){
+    return this.http.get('http://localhost:5000/api/auth/test', { responseType: 'text' });
+  }
 }
