@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphComponent } from './graph/graph.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgGridComponent } from './ag-grid/ag-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { CommonService } from './Services/common.service';
@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AdaCompComponent } from './ada-comp/ada-comp.component';
 import { ConvertToCsvComponent } from './convert-to-csv/convert-to-csv.component';
+import { AgGridTableComponent } from './ag-grid-table/ag-grid-table.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ConvertToCsvComponent } from './convert-to-csv/convert-to-csv.component
     DynamicFormComponent,
     AgGridComponent,
     AdaCompComponent,
-    ConvertToCsvComponent
+    ConvertToCsvComponent,
+    AgGridTableComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import { ConvertToCsvComponent } from './convert-to-csv/convert-to-csv.component
     ReactiveFormsModule,
     AgGridModule,
     HttpClientModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    FormsModule
   ],
   providers: [CommonService],
   bootstrap: [AppComponent]

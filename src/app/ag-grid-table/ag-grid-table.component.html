@@ -1,0 +1,23 @@
+<h3>Non AgGrid Table</h3>
+<div class="table-wrapper-scroll-y my-custom-scrollbar" (scroll)="scrollHandler($event)">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col"><input type="checkbox" [(ngModel)]="selectAll" (change)="chekcValue()"/></th>
+        <th scope="col"><button class="btnheader" (click)="sortDate('Id')"> Id</button></th>
+        <th scope="col"><button class="btnheader" (click)="sortDate('Name')"> Name </button></th>
+        <th scope="col"><button class="btnheader" (click)="sortDate('Username')"> Username </button></th>
+        <th scope="col"><button class="btnheader" (click)="sortDate('Email')"> Email </button></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let user of data">
+      <tr>
+        <td><input type="checkbox" [checked]="!checkInArray(user.id)" (change)="chekcValueIndividual(user.id)"/></td>
+        <th scope="row"><button class="btnheader">{{user.id}}</button></th>
+        <td><button class="btnheader">{{user.name}}</button></td>
+        <td><button class="btnheader">{{user.username}}</button></td>
+        <td><button class="btnheader">{{user.email}}</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
